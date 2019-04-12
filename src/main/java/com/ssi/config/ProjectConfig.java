@@ -5,6 +5,7 @@ import java.util.Properties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
@@ -16,6 +17,26 @@ import com.mchange.v2.c3p0.ComboPooledDataSource;
 @ComponentScan(basePackages="com.ssi")
 public class ProjectConfig {
 
+	@Bean
+	public JavaMailSenderImpl mailSender(){
+	
+		JavaMailSenderImpl jms=new JavaMailSenderImpl();
+		jms.setHost("smtp.gmail.com");
+		jms.setPort(587);
+		jms.setUsername("ssiedu123@gmail.com");
+		jms.setPassword("ssiindore");
+		
+		Properties mailProperties=new Properties();
+		mailProperties.setProperty("mail.transport.protocol", "smtp");
+		mailProperties.setProperty("mail.smtp.auth", "true");
+		mailProperties.setProperty("mail.smtp.starttls.enable", "true");
+		
+		jms.setJavaMailProperties(mailProperties);
+		
+		
+		return jms;
+	}
+	
 	@Bean
 	public LocalSessionFactoryBean sessionFactory() {
 		LocalSessionFactoryBean sessionFactory=new LocalSessionFactoryBean();

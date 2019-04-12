@@ -6,12 +6,14 @@ import java.util.List;
 import java.util.Map;
 
 import org.hibernate.Criteria;
+import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import com.ssi.entities.Provider;
 import com.ssi.entities.Service;
 
 @Component
@@ -20,7 +22,16 @@ public class ServiceDAO {
 	@Autowired
 	SessionFactory sessionFactory;
 
-	
+	public String getPriceList(){
+		Session session=sessionFactory.openSession();
+		Criteria cr=session.createCriteria(Service.class);
+		List<Service> services=cr.list();
+		String s="Our Service Charges : \n";
+		for(Service service:services){
+			s=s+service.getSname()+","+service.getCharge()+"\n";
+		}
+		return s;
+	}
 	public Map<String,String> getAllServiceCodeAndNameMap(){
 		
 		Map<String,String> serviceMap=new HashMap<String,String>();
