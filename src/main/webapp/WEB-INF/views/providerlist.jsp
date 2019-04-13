@@ -22,6 +22,7 @@
 				<td>${provider.mobile}</td>
 				<td>${provider.service.sname}</td>				
 				<td>${provider.service.charge}</td>
+				<td><a href="messageform?providerid=${provider.email}">msg</a></td>
 			</tr>
 		</c:forEach>
 	</table>

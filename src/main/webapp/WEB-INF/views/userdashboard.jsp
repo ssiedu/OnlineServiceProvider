@@ -1,6 +1,7 @@
+<%@page isELIgnored="false" %>
 <html>
 <body>
-	<h3>Welcome User</h3>
+	<h3>Welcome ${userid}</h3>
 	<hr>
 	<pre>
 		<a href="allproviders">View-All-Providers</a>

@@ -2,6 +2,9 @@ package com.ssi.controllers;
 
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -13,6 +16,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.ssi.dao.ProviderDAO;
 import com.ssi.dao.ServiceDAO;
 import com.ssi.entities.Provider;
+import com.ssi.entities.User;
 
 @Controller
 public class ProviderController {
@@ -24,6 +28,28 @@ public class ProviderController {
 	ProviderDAO providerDAO;
 	@Autowired
 	ServiceDAO serviceDAO;
+	
+	@RequestMapping("providerlogin")
+	public String showProviderLoginForm(){
+		return "providerlogin";
+	}
+	
+	@RequestMapping("verifyprovider")
+	public ModelAndView verifyProviderData(@ModelAttribute("provider") Provider provider, HttpServletRequest request){	
+		boolean success=providerDAO.verifyProvider(provider);
+		System.out.println(success);
+		if(success){
+		HttpSession session=request.getSession();
+		session.setAttribute("providerid", provider.getEmail());
+		ModelAndView mv=new ModelAndView("providerdashboard");
+		return mv;
+		}else{
+			ModelAndView mv=new ModelAndView("providerlogin");
+			return mv;
+		}
+	}
+	
+	
 	
 	@RequestMapping("sendpricelist")
 	public String sendMailForPrices(){
