@@ -8,6 +8,8 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 
 import com.mchange.v2.c3p0.ComboPooledDataSource;
@@ -15,7 +17,24 @@ import com.mchange.v2.c3p0.ComboPooledDataSource;
 @Configuration
 @EnableWebMvc
 @ComponentScan(basePackages="com.ssi")
-public class ProjectConfig {
+public class ProjectConfig implements WebMvcConfigurer {
+	
+	
+	   public void addResourceHandlers(ResourceHandlerRegistry registry) {
+
+		      
+		      // Register resource handler for images
+		      registry
+		      .addResourceHandler("/images/**")
+		      .addResourceLocations("/WEB-INF/images/");
+		      
+		     // Register resource hanlder for css
+		      
+		      registry
+		      .addResourceHandler("/css/**")
+		      .addResourceLocations("/WEB-INF/css/");
+		            
+		   }
 
 	@Bean
 	public JavaMailSenderImpl mailSender(){
